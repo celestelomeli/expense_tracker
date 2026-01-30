@@ -1,14 +1,24 @@
 # Backend Dockerfile for FastAPI
 FROM python:3.11-slim
 
+# Set working directory inside container
 WORKDIR /app
 
+# Copy requirements file and install Python dependencies
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy backend code into container
 COPY backend/ .
+
+# Copy .env file for database credentials
 COPY .env .
 
+# Expose port 8000 for FastAPI server
 EXPOSE 8000
 
+# Run uvicorn server
+# --host 0.0.0.0 allows external connections (needed for Docker)
+# --port 8000 runs on port 8000
+# --reload auto-restarts when code changes (dev mode)
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
