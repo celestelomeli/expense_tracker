@@ -1,0 +1,17 @@
+# FastAPI Backend Dependencies
+
+# FastAPI - The web framework
+fastapi==0.109.0
+
+# Uvicorn - ASGI server to run FastAPI
+# Think of it like the engine that runs your FastAPI app
+uvicorn[standard]==0.27.0
+
+# Pydantic - Data validation (comes with FastAPI but listing for clarity)
+pydantic==2.5.3
+
+# MySQL connector - Same as your CLI app
+mysql-connector-python==8.3.0
+
+# Python-dotenv - Load environment variables from .env file
+python-dotenv==1.0.0
