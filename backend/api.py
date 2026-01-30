@@ -285,24 +285,24 @@ def get_insights():
         cursor.execute("SELECT AVG(amount) FROM expenses")
         average_spending = cursor.fetchone()[0]
         
-        # Find the highest expense
+        # Find highest single expense
         cursor.execute("SELECT MAX(amount) FROM expenses")
         highest_expense = cursor.fetchone()[0]
         
         # Find most common category
-        # LIMIT 1 gets only the top result
         cursor.execute(
             "SELECT category, COUNT(*) as count FROM expenses "
             "GROUP BY category ORDER BY count DESC LIMIT 1"
         )
-        most_common = cursor.fetchone()
+        result = cursor.fetchone()
+        most_common_category = result[0]
+        category_count = result[1]
         
-        # Return all insights as JSON
         return {
             "average_spending": float(average_spending),
             "highest_expense": float(highest_expense),
-            "most_common_category": most_common[0],
-            "category_count": most_common[1]
+            "most_common_category": most_common_category,
+            "category_count": category_count
         }
         
     except mysql.connector.Error as err:
@@ -316,7 +316,7 @@ def get_categories():
     """
     GET /api/categories
     Return list of valid expense categories.
-    React uses this to populate dropdown menu.
+    Used by React to populate dropdown menu.
     """
     return {"categories": CATEGORIES}
 
