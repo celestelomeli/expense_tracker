@@ -1,0 +1,10 @@
+FROM mysql:8.0
+
+# Copy initialization script
+COPY docker/init.sql /docker-entrypoint-initdb.d/
+
+# Expose MySQL port
+EXPOSE 3306
+
+# Use default MySQL entrypoint
+CMD ["mysqld"]
