@@ -32,5 +32,20 @@ services:
     stdin_open: true
     tty: true
 
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: expense_tracker_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+
 volumes:
   mysql_data:
