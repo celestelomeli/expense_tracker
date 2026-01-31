@@ -1,0 +1,186 @@
+/* Main app container - centers content and limits width */
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Page title styling */
+h1 {
+  text-align: center;
+  color: #1a1a1a;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+}
+
+/* Form container - clean white card */
+.form-container {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Form layout - grid */
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+/* Input fields and dropdown styling */
+input, select {
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  transition: all 0.2s;
+}
+
+/* Hide number input spinner arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+/* Button styling - minimal black */
+button {
+  padding: 12px 24px;
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+/* Button hover effect */
+button:hover {
+  background: #000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Insights section - subtle gray card */
+.insights {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.insights h2 {
+  margin-bottom: 16px;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Insights text spacing */
+.insights p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+/* Expenses list container */
+.expenses-list {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.expenses-list h2 {
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Expenses table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table cells */
+th, td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Table header */
+th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+th:first-child {
+  border-top-left-radius: 8px;
+}
+
+th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Table data */
+td {
+  color: #1a1a1a;
+  font-size: 0.95rem;
+}
+
+/* Table row hover effect */
+tbody tr:hover {
+  background: #f9fafb;
+  transition: background 0.15s;
+}
+
+/* Delete button in table */
+table button {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  background: #ef4444;
+}
+
+table button:hover {
+  background: #dc2626;
+}
