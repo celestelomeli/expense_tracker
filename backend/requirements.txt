@@ -15,3 +15,10 @@ mysql-connector-python==8.3.0
 
 # Python-dotenv - Load environment variables from .env file
 python-dotenv==1.0.0
+
+# Testing Dependencies
+# Pytest - Testing framework for Python
+pytest==7.4.3
+
+# HTTPX - Required by FastAPI's TestClient to make test requests
+httpx==0.26.0

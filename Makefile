@@ -63,7 +63,7 @@ db:
 # Run tests 
 test:
 	@echo "Running tests..."
-	@echo "Tests not implemented yet"
+	pytest tests/ -v
 
 # Build Docker images
 build:
