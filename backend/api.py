@@ -130,7 +130,7 @@ def get_expenses():
         cursor.close()
         db.close()
 
-@app.post("/api/expenses")
+@app.post("/api/expenses", status_code=201)
 def create_expense(expense: ExpenseCreate):
     """
     POST /api/expenses
