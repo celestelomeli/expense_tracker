@@ -22,3 +22,9 @@ pytest==7.4.3
 
 # HTTPX - Required by FastAPI's TestClient to make test requests
 httpx==0.26.0
+
+# Pytest-cov - Code coverage plugin for pytest
+pytest-cov==4.1.0
+
+# Flake8 - Python linter for code quality
+flake8==7.0.0
