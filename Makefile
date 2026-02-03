@@ -46,13 +46,13 @@ logs:
 # Clean everything (remove data)
 clean:
 	@echo "This will delete all data!"
-	@read -p "Are you sure? [y/N] " -n 1 -r; \  # Read only one character
+	@read -p "Are you sure? [y/N] " -n 1 -r; \
 	echo; \
-	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \         # Check if answer starts with Y or y
-		docker-compose down -v; \               # Stop containers and remove volumes
-		echo "Cleaned up"; \
+	if [ "$$REPLY" = "y" ] || [ "$$REPLY" = "Y" ]; then \
+		docker-compose down -v; \
+		echo "✓ Cleaned up"; \
 	else \
-		echo "Cancelled"; \
+		echo "✗ Cancelled"; \
 	fi
 
 # Access database shell
