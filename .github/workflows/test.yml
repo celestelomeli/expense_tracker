@@ -12,11 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest  # Use Ubuntu server
     
-    # Test on multiple Python versions for compatibility
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10', '3.11']
-    
     # Start MySQL service
     services:
       mysql:
@@ -37,11 +32,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      # Step 2: Set up Python (tests multiple versions)
-      - name: Set up Python ${{ matrix.python-version }}
+      # Step 2: Set up Python 3.11
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.11'
       
       # Step 3: Install dependencies
       - name: Install dependencies

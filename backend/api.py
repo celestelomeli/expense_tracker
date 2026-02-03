@@ -4,11 +4,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional
 import mysql.connector
 import os
 from dotenv import load_dotenv
-from datetime import datetime, date
+from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -46,7 +45,7 @@ class Expense(BaseModel):
 def get_db_connection():
     """
     Establish connection to MySQL database.
-    Uses environment variables for credentials.
+    Use environment variables for credentials.
     Returns connection object or None if failed.
     """
     try:
@@ -64,7 +63,7 @@ def get_db_connection():
 def validate_date(date_string: str) -> bool:
     """
     Validate date is in YYYY-MM-DD format.
-    Returns True if valid, False otherwise.
+    Returns True if valid, False if not.
     """
     try:
         datetime.strptime(date_string, '%Y-%m-%d')
@@ -75,7 +74,7 @@ def validate_date(date_string: str) -> bool:
 def validate_amount(amount: float) -> bool:
     """
     Validate amount is a positive number.
-    Returns True if valid, False otherwise.
+    Returns True if valid, False if not.
     """
     return amount > 0
 
@@ -102,7 +101,7 @@ def get_expenses():
     cursor = db.cursor()
     
     try:
-        # Query all expenses, ordered by date (newest first)
+        # Query all expenses, ordered by date 
         cursor.execute(
             "SELECT id, date, category, amount, description FROM expenses ORDER BY date DESC"
         )
@@ -163,7 +162,7 @@ def create_expense(expense: ExpenseCreate):
         values = (expense.date, expense.category, expense.amount, expense.description)
         
         cursor.execute(sql, values)
-        db.commit()  # Save changes to database
+        db.commit()  # Save changes to db
         
         # Get the ID of the newly created expense
         expense_id = cursor.lastrowid
@@ -319,6 +318,74 @@ def get_categories():
     Used by React to populate dropdown menu.
     """
     return {"categories": CATEGORIES}
+
+@app.get("/api/budget")
+def get_budget():
+    """
+    GET /api/budget
+    Get current monthly budget from database.
+    Returns the most recent budget amount.
+    Used by React to display budget and calculate progress bar.
+    """
+    # Connect to database
+    db = get_db_connection()
+    if not db:
+        raise HTTPException(status_code=500, detail="Database connection failed")
+    
+    cursor = db.cursor()
+    
+    try:
+        # Get most recent budget (should only be one row with id=1)
+        cursor.execute("SELECT amount FROM budget ORDER BY id DESC LIMIT 1")
+        result = cursor.fetchone()
+        
+        # If no budget exists, return default
+        if not result:
+            return {"budget": 500.00}  # Default budget
+        
+        return {"budget": float(result[0])}
+        
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=str(err))
+    finally:
+        cursor.close()
+        db.close()
+
+class BudgetUpdate(BaseModel):
+    """Data structure for updating budget"""
+    amount: float
+
+@app.post("/api/budget")
+def update_budget(budget: BudgetUpdate):
+    """
+    POST /api/budget
+    Update monthly budget amount in database.
+    Expects JSON body with amount field.
+    Updates the budget row with id=1 (we only store one budget).
+    """
+    # Validate budget is positive
+    if budget.amount <= 0:
+        raise HTTPException(status_code=400, detail="Budget must be positive")
+    
+    # Connect to database
+    db = get_db_connection()
+    if not db:
+        raise HTTPException(status_code=500, detail="Database connection failed")
+    
+    cursor = db.cursor()
+    
+    try:
+        # Update the first budget row 
+        cursor.execute("UPDATE budget SET amount = %s WHERE id = 1", (budget.amount,))
+        db.commit()  # Save changes to database
+        
+        return {"message": "Budget updated successfully", "budget": budget.amount}
+        
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=str(err))
+    finally:
+        cursor.close()
+        db.close()
 
 @app.get("/")
 def root():

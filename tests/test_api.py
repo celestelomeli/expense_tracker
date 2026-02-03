@@ -124,5 +124,50 @@ def test_delete_expense():
     assert "deleted" in data["message"].lower()
 
 
+def test_get_budget():
+    """
+    Test that we can get the current budget.
+    """
+    # Act - Get budget
+    response = client.get("/api/budget")
+    
+    # Print for debugging
+    print(f"\nStatus: {response.status_code}")
+    print(f"Response: {response.json()}")
+    
+    # Assert - Check if request was successful
+    assert response.status_code == 200
+    data = response.json()
+    assert "budget" in data
+    assert isinstance(data["budget"], (int, float))  # Should be a number
+    assert data["budget"] > 0  # Budget should be positive
+
+
+def test_update_budget():
+    """
+    Test that we can update the budget.
+    """
+    # Arrange - New budget amount
+    new_budget = 750.00
+    budget_data = {"amount": new_budget}
+    
+    # Act - Update budget
+    response = client.post("/api/budget", json=budget_data)
+    
+    # Print for debugging
+    print(f"\nStatus: {response.status_code}")
+    print(f"Response: {response.json()}")
+    
+    # Assert - Check if update was successful
+    assert response.status_code == 200
+    data = response.json()
+    assert "Budget updated" in data["message"]
+    assert data["budget"] == new_budget
+    
+    # Verify by getting budget again
+    get_response = client.get("/api/budget")
+    assert get_response.json()["budget"] == new_budget
+
+
 # Run all tests:
 # pytest tests/test_api.py -v
